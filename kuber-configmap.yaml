@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kuber-configmap
+  namespace: dev
+data:
+  hello: "Hello my dear!"
+  test.conf: |
+    awdawdawdawdawdawda

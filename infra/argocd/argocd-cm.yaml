@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+data:
+  # Public URL used in links and UI callbacks.
+  url: http://argocd.local
+  application.instanceLabelKey: argocd.argoproj.io/instance

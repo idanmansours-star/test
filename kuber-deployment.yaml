@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuber
+  namespace: dev
+spec:
+  replicas: 2
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: http-server
+  template:
+    metadata:
+      namespace: dev
+      labels:
+        app: http-server
+    spec:
+      containers:
+        - name: kuber-app
+          image: shinsenter/symfony:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: host-mount
+            - mountPath: /data/nginx.conf
+              name: nginx-conf
+              readOnly: true
+          envFrom:
+            - configMapRef:
+                name: kuber-configmap
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: kuber-configmap
+        - name: host-mount
+          hostPath:
+            path: /data
